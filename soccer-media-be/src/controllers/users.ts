@@ -17,13 +17,43 @@ const createUser = async (req: Request<unknown, unknown, { email: string, userna
         return res.status(error.statusCode).json(error);
     }
 };
-const deleteUser = async (req: Request, res: Response) => {
+const getUser = async (req: Request, res: Response) => {
+    try {
+        const userId = req.query.userId as string;
+        if (!userId) {
+            return;
+        }
+        const user = await userService.getUser(userId);
+        return res.status(HTTPStatusCode.Ok).json({ user });
 
+    } catch (e) {
+        const error = formatError(e);
+        return res.status(error.statusCode).json(error);
+    }
+
+}
+const deleteUser = async (req: Request, res: Response) => {
+    try {
+        const userId = req.query.userId as string;
+        if (!userId) {
+            return
+        }
+        await userService.deleteUser(userId);
+        return res.status(HTTPStatusCode.Ok).json({ string: "User deleted sucessfully" });
+
+    } catch (e) {
+        const error = formatError(e);
+        return res.status(error.statusCode).json(error);
+
+    }
 }
 
 
 export const usersController = {
     createUser,
+    getUser,
+    deleteUser,
+
 };
 
 

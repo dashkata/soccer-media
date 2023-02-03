@@ -1,5 +1,6 @@
 import { User } from '@prisma/client';
 import prisma from "../lib/prisma";
+import { CustomError, HTTPStatusCode, InternalErrorMessage } from '../types/error';
 import { formatError } from '../utils/functions';
 
 interface CreateUserArgs {
@@ -35,12 +36,43 @@ const createUser = async ({ email, name, username }: CreateUserArgs): Promise<Us
         throw error;
     }
 };
+const getUser = async (id: string): Promise<User> => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id,
+            },
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                name: true,
+                createdAt: true,
+                updatedAt: true,
+            }
+        });
+        if (!user) {
+            throw new CustomError({
+                message: "User does not exist",
+                statusCode: HTTPStatusCode.NotFound,
+                internalMessage: InternalErrorMessage.UserNotExist,
+            });
+        }
+        return user;
+
+    } catch (e) {
+        const error = formatError(e);
+        throw error;
+    }
+}
 const deleteUser = async (id: string): Promise<void> => {
     try {
         await prisma.user.delete({
             where: { id: id },
         })
     } catch (e) {
+        const error = formatError(e);
+        throw error;
 
     }
 
@@ -48,4 +80,6 @@ const deleteUser = async (id: string): Promise<void> => {
 
 export const userService = {
     createUser,
+    getUser,
+    deleteUser,
 }
