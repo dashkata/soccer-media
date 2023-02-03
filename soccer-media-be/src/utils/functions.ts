@@ -5,6 +5,5 @@ export const formatError = (e: unknown, specificMessage = "Something went wrong,
     if (e instanceof CustomError) {
         return e;
     }
-
     return INTERNAL_ERROR;
 };
