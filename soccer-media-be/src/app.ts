@@ -1,9 +1,11 @@
 import { config } from 'dotenv';
 import express, { Express, Request, Response } from 'express';
+import * as admin from 'firebase-admin';
 
 config();
 
 const app: Express = express();
+
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express server with TypeScript');
