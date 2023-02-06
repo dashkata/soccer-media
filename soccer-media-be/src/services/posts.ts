@@ -42,6 +42,7 @@ const getAllPosts = async (): Promise<Post[]> => {
                 message: true,
                 likes: true,
                 userId: true,
+                user: true,
             }
         })
         return posts;

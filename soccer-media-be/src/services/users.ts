@@ -47,6 +47,7 @@ const getUser = async (id: string): Promise<User> => {
                 username: true,
                 email: true,
                 name: true,
+                posts: true,
                 createdAt: true,
                 updatedAt: true,
             }
