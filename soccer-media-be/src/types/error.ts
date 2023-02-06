@@ -6,24 +6,9 @@ export enum InternalErrorMessage {
     Unauthorized = "REQUEST_DENIED",
     BadRequest = "BAD_REQUEST",
 
-    // Card
-    CardNotExist = "CARD_DOESNT_EXIST",
-    CardExist = "CARD_ALREADY_EXISTS",
-    CardNotCreated = "CARD_NOT_CREATED",
-    CardNotDeleted = "CARD_NOT_DELETED",
-
     //  User
     UserNotExist = "USER_DOESNT_EXIST",
     UserExist = "USER_ALREADY_EXISTS",
-    UserMissingName = "MISSING_NAME",
-    UserHasCard = "USER_HAS_CARD",
-
-    //  Offer
-    OfferNotExist = "OFFER_DONT_EXIST",
-
-    // Transaction
-    TransactionNotExist = "TRANSACTION_NOT_EXIST",
-    TransactionNotCreated = "TRANSACTION_NOT_CREATED",
 }
 
 export enum HTTPStatusCode {
