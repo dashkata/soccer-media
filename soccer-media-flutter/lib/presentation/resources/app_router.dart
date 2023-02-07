@@ -14,7 +14,7 @@ class AppRoute {
   static const String profile = 'profile';
 }
 
-class Router {
+class AppRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoute.login:

@@ -4,10 +4,13 @@ import 'package:soccer_media_flutter/data/data_sources/endpoints.dart';
 import '../entities/post_entity.dart';
 
 class API {
-  final dio = Dio();
+  final Dio _dio;
 
-  Future<PostEntity> getPosts() async {
-    final response = await dio.get(Endpoint.allPosts());
-    return PostEntity.fromJson(response.data);
+  API({required Dio dio}) : _dio = dio;
+
+  Future<List<PostEntity>> getPosts() async {
+    final response = await _dio.get(Endpoint.allPosts());
+    final data = response.data as List<dynamic>;
+    return data.map((entity) => PostEntity.fromJson(entity)).toList();
   }
 }
