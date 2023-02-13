@@ -47,10 +47,7 @@ class PostCard extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  left: 24,
-                ),
+                padding: const EdgeInsets.fromLTRB(24, 21, 24, 18),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -74,7 +71,9 @@ class PostCard extends ConsumerWidget {
               ),
             ],
           ),
-          const Divider(),
+          const Divider(
+            height: 0,
+          ),
         ],
       ),
     );
@@ -98,6 +97,7 @@ class _IconRow extends StatelessWidget {
     return Row(
       children: [
         IconButton(
+          constraints: const BoxConstraints(),
           padding: EdgeInsets.zero,
           onPressed: () {},
           icon: icon,
