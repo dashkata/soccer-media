@@ -5,8 +5,6 @@ import { formatError } from "../utils/functions";
 interface CreatePostArgs {
     message: string,
     userId: string,
-
-
 }
 
 const createPost = async ({ message, userId }: CreatePostArgs): Promise<Post> => {
@@ -15,11 +13,15 @@ const createPost = async ({ message, userId }: CreatePostArgs): Promise<Post> =>
             data: {
                 'likes': 0,
                 'message': message,
+                'shares': 0,
+                'parentId': null,
                 'userId': userId,
             },
             select: {
                 id: true,
                 message: true,
+                shares: true,
+                parentId: true,
                 likes: true,
                 userId: true,
             },
@@ -40,6 +42,9 @@ const getAllPosts = async (): Promise<Post[]> => {
             select: {
                 id: true,
                 message: true,
+                shares: true,
+                parentId: true,
+                Children: true,
                 likes: true,
                 userId: true,
                 user: true,
@@ -53,6 +58,38 @@ const getAllPosts = async (): Promise<Post[]> => {
 
     }
 
+}
+const commentPost = async (postId: string, { message, userId }: CreatePostArgs,): Promise<void> => {
+    try {
+        const post = await prisma.post.create({
+            data: {
+                'likes': 0,
+                'message': message,
+                'shares': 0,
+                'parentId': postId,
+                'userId': userId,
+            }
+        });
+
+    } catch (e) {
+        const error = formatError(e);
+        throw error;
+
+    }
+
+}
+const likeUserPost = async (postId: string): Promise<Post> => {
+    try {
+        const post = await prisma.post.update({
+            where: { id: postId },
+            data: { likes: { increment: 1, } },
+        });
+        return post;
+    } catch (e) {
+        const error = formatError(e);
+        throw error;
+
+    }
 }
 const deletePost = async (id: string): Promise<void> => {
     try {
@@ -74,5 +111,7 @@ const deletePost = async (id: string): Promise<void> => {
 export const postService = {
     createPost,
     getAllPosts,
+    commentPost,
+    likeUserPost,
     deletePost,
 };

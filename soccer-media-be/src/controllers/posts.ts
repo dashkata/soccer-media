@@ -23,12 +23,39 @@ const getAllPosts = async (req: Request, res: Response) => {
         const error = formatError(e);
         return res.status(error.statusCode).json(error);
     }
+}
+const likeUserPost = async (req: Request, res: Response) => {
+    try {
+        const postId = req.query.id as string;
+        if (!postId) {
+            return;
+        }
+        const post = await postService.likeUserPost(postId);
+        return res.status(HTTPStatusCode.Ok).json("Post liked successfully");
+
+    } catch (e) {
+        const error = formatError(e);
+        return res.status(error.statusCode).json(error);
+
+    }
+}
+const commentPost = async (req: Request, res: Response) => {
+    try {
+        const postId = req.query.id as string;
+        const { message, userId } = req.body;
+        const post = await postService.commentPost(postId, { message, userId });
+        return res.status(HTTPStatusCode.Ok).json(post);
+
+    } catch (e) {
+        const error = formatError(e);
+        return res.status(error.statusCode).json(error);
+    }
 
 }
+
 const deleteUserPost = async (req: Request, res: Response) => {
     try {
         const postId = req.query.id as string;
-        console.log(postId);
         if (!postId) {
             return;
         }
@@ -46,5 +73,7 @@ const deleteUserPost = async (req: Request, res: Response) => {
 export const postsController = {
     createUserPost,
     getAllPosts,
+    commentPost,
+    likeUserPost,
     deleteUserPost,
 }
